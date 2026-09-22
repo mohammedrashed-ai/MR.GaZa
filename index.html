@@ -11,6 +11,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Google Fonts: Tajawal -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
 
   <script>
     tailwind.config = {
@@ -62,27 +63,33 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="font-black text-xl tracking-tight text-white">MR.GaZa</h1>
-            <span class="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-cyan-500/30">سوق الشبكات</span>
+            <span class="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-cyan-500/30">تجريبي 🟢</span>
           </div>
           <p class="text-[11px] text-slate-400 font-medium">برمجة وتطوير: <span class="text-cyan-400 font-bold">م. محمد أبوسمعان</span></p>
         </div>
       </div>
 
       <!-- Action Buttons -->
-      <div class="flex items-center gap-2">
-        <button onclick="openAuthModal()" id="userAuthBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition">
-          <i data-lucide="user" class="w-4 h-4 text-cyan-400"></i>
-          <span id="userAuthText">تسجيل الدخول</span>
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <button onclick="openMyAdsModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition whitespace-nowrap">
+          <i data-lucide="list" class="w-4 h-4 text-cyan-400"></i>
+          <span>إعلاناتي</span>
         </button>
 
-        <button onclick="openVerificationModal()" id="userBadgeBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition">
+        <button onclick="openInboxModal()" class="relative bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition whitespace-nowrap">
+          <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+          <span>الرسائل</span>
+          <span id="unreadBadge" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-cyan-500 rounded-full border-2 border-slate-950 animate-pulse"></span>
+        </button>
+
+        <button onclick="openVerificationModal()" id="userBadgeBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition whitespace-nowrap">
           <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
           <span id="userBadgeText">توثيق الحساب</span>
         </button>
 
-        <button onclick="openModal('addAdModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 transition">
+        <button onclick="openModal('addAdModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 transition whitespace-nowrap">
           <i data-lucide="plus-circle" class="w-4 h-4 stroke-[2.5]"></i>
-          <span class="hidden md:inline">أضف عرضك</span>
+          <span>أضف عرضك</span>
         </button>
       </div>
 
@@ -183,7 +190,7 @@
   <footer class="glass border-t border-slate-800/80 py-6 text-center text-xs text-slate-400 mt-12">
     <div class="max-w-7xl mx-auto px-4 space-y-2">
       <p class="font-bold text-slate-200">MR.GaZa — التطبيق الخاص بشبكات الإنترنت والاتصالات</p>
-      <p class="text-slate-500 text-[11px]">عمولة المنصة 3% فقط للتطوير والاستدامة | البيع والتسليم يتم مباشرة بين الطرفين</p>
+      <p class="text-slate-500 text-[11px]">نسخة تجريبية مفتوحة للبيع والشراء | التوصيل والتسليم مباشرة بين الطرفين</p>
       <div class="pt-2">
         <span class="inline-block bg-slate-900 border border-cyan-500/30 text-cyan-400 text-[11px] font-bold px-3 py-1 rounded-xl">
           برمجة وتطوير: م. محمد أبوسمعان
@@ -192,45 +199,7 @@
     </div>
   </footer>
 
-  <!-- Modal 1: User Login / Register -->
-  <div id="authModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="glass-card rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-        <h3 class="font-bold text-slate-100 text-base">تسجيل الدخول / حساب جديد</h3>
-        <button onclick="closeModal('authModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-
-      <form onsubmit="handleLogin(event)" class="space-y-3.5">
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">الاسم الكريم / اسم الشبكة</label>
-          <input type="text" id="loginName" required placeholder="مثال: شبكة الأمل / م. أحمد" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-cyan-500">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف / الواتساب</label>
-          <input type="text" id="loginPhone" required placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-cyan-500">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">المنطقة</label>
-          <select id="loginRegion" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
-            <option value="غزة">غزة</option>
-            <option value="الرمال">الرمال</option>
-            <option value="الوسطى">الوسطى</option>
-            <option value="خانيونس">خانيونس</option>
-            <option value="رفح">رفح</option>
-            <option value="الشمال">الشمال</option>
-          </select>
-        </div>
-
-        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-cyan-500/20">
-          حفظ وتسجيل الدخول
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal 2: Add New Offer/Listing -->
+  <!-- Modal 1: Add New Offer/Listing -->
   <div id="addAdModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl overflow-y-auto max-h-[90vh]">
       <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
@@ -305,7 +274,7 @@
     </div>
   </div>
 
-  <!-- Modal 3: Add Buyer Request -->
+  <!-- Modal 2: Add Buyer Request -->
   <div id="addRequestModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
@@ -353,7 +322,41 @@
     </div>
   </div>
 
-  <!-- Modal 4: Account Verification -->
+  <!-- Modal 3: My Ads / Managed Content -->
+  <div id="myAdsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-xl w-full p-5 border border-slate-700 shadow-2xl overflow-y-auto max-h-[85vh]">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base flex items-center gap-2">
+          <i data-lucide="list" class="w-5 h-5 text-cyan-400"></i>
+          إعلاناتي المعروضة
+        </h3>
+        <button onclick="closeModal('myAdsModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="myAdsContainer" class="space-y-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Messages Inbox -->
+  <div id="inboxModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl overflow-y-auto max-h-[85vh]">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base flex items-center gap-2">
+          <i data-lucide="message-square" class="w-5 h-5 text-emerald-400"></i>
+          صندوق المحادثات والرسائل
+        </h3>
+        <button onclick="closeModal('inboxModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="inboxContainer" class="space-y-2">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Account Verification -->
   <div id="verificationModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
@@ -368,11 +371,6 @@
         <p class="text-xs text-slate-300 leading-relaxed">
           للحصول على شارة <span class="text-emerald-400 font-bold">عضو موثوق 🟢</span> وزيادة موثوقية عروضك، يرجى طلب كود التفعيل المباشر من مطور التطبيق عبر الواتساب.
         </p>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف المراد توثيقه</label>
-          <input type="text" id="verPhone" placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
-        </div>
 
         <div>
           <a id="waVerifyLink" href="https://wa.me/970599777332?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85.%D9%85%D8%AD%D9%85%D8%AF%20%D8%A3%D8%A8%D9%88%D8%B3%D9%85%D8%B9%D8%A7%D9%86%D9%8F%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%88%D8%AB%D9%8A%D9%82%20%D8%AD%D8%B3%D8%A7%D8%A8%D9%8A%20%D9%81%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20MR.GaZa" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition">
@@ -394,21 +392,19 @@
     </div>
   </div>
 
-  <!-- Modal 5: In-App Chat Modal -->
+  <!-- Modal 6: Live Chat -->
   <div id="chatModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-lg w-full h-[500px] flex flex-col border border-slate-700 shadow-2xl">
       <div class="flex justify-between items-center p-4 border-b border-slate-800">
         <div>
           <h3 id="chatRecipient" class="font-bold text-slate-100 text-sm">محادثة البائع</h3>
-          <p class="text-[10px] text-emerald-400">محادثة أمنة داخل المنصة</p>
+          <p class="text-[10px] text-emerald-400">محادثة فورية وسريعة</p>
         </div>
         <button onclick="closeModal('chatModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
       <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3">
-        <div class="bg-slate-800/80 border border-slate-700 text-slate-300 text-xs p-3 rounded-2xl max-w-[80%] leading-relaxed">
-          أهلاً بك! تفضل بخصوص المعدة المعروضة.
-        </div>
+        <!-- Messages rendered dynamically -->
       </div>
 
       <form onsubmit="sendMessage(event)" class="p-3 border-t border-slate-800 flex gap-2">
@@ -422,7 +418,6 @@
 
   <!-- JavaScript Application Logic -->
   <script>
-    const DEV_PHONE = "970599777332";
     const ACTIVATION_CODE = "777332";
 
     const categories = [
@@ -437,13 +432,16 @@
       { name: "كاميرات ومستلزمات", icon: "camera" }
     ];
 
-    // Clean initial state for deployment
     let listings = [];
     let requests = [];
+    let chats = {};
+    let activeChatUser = null;
 
     let currentCategory = "الكل";
     let isUserVerified = false;
-    let currentUser = null;
+
+    // Real-time broadcast channel for sync across tabs & local sessions
+    const syncChannel = new BroadcastChannel('mr_gaza_chat_channel');
 
     document.addEventListener("DOMContentLoaded", () => {
       loadState();
@@ -451,6 +449,16 @@
       renderListings();
       renderRequests();
       lucide.createIcons();
+
+      syncChannel.onmessage = (event) => {
+        if (event.data && event.data.type === 'NEW_CHAT') {
+          chats = JSON.parse(localStorage.getItem("mr_gaza_chats") || "{}");
+          document.getElementById("unreadBadge").classList.remove("hidden");
+          if (activeChatUser === event.data.sender) {
+            renderChatMessages();
+          }
+        }
+      };
     });
 
     function loadState() {
@@ -460,17 +468,14 @@
         updateUserBadgeUI();
       }
 
-      const storedUser = localStorage.getItem("mr_gaza_user");
-      if (storedUser) {
-        currentUser = JSON.parse(storedUser);
-        document.getElementById("userAuthText").innerText = currentUser.name;
-      }
-
       const storedListings = localStorage.getItem("mr_gaza_listings");
       if (storedListings) listings = JSON.parse(storedListings);
 
       const storedRequests = localStorage.getItem("mr_gaza_requests");
       if (storedRequests) requests = JSON.parse(storedRequests);
+
+      const storedChats = localStorage.getItem("mr_gaza_chats");
+      if (storedChats) chats = JSON.parse(storedChats);
     }
 
     function renderCategories() {
@@ -615,16 +620,99 @@
       }
     }
 
-    function handleLogin(e) {
+    function openMyAdsModal() {
+      const container = document.getElementById("myAdsContainer");
+      if (listings.length === 0) {
+        container.innerHTML = `<p class="text-center text-xs text-slate-500 py-6">لم تقم بنشر أي إعلانات حتى الآن.</p>`;
+      } else {
+        container.innerHTML = listings.map(item => `
+          <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex items-center justify-between gap-2">
+            <div>
+              <h5 class="font-bold text-slate-200 text-xs">${item.title}</h5>
+              <p class="text-[10px] text-slate-400">${item.price} شيكل • ${item.region}</p>
+            </div>
+            <button onclick="deleteListing(${item.id})" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs px-2.5 py-1.5 rounded-lg border border-red-500/20 transition">
+              حذف الإعلان
+            </button>
+          </div>
+        `).join('');
+      }
+      openModal("myAdsModal");
+    }
+
+    function deleteListing(id) {
+      listings = listings.filter(item => item.id !== id);
+      localStorage.setItem("mr_gaza_listings", JSON.stringify(listings));
+      renderListings();
+      openMyAdsModal();
+    }
+
+    function openInboxModal() {
+      document.getElementById("unreadBadge").classList.add("hidden");
+      const container = document.getElementById("inboxContainer");
+      const userList = Object.keys(chats);
+
+      if (userList.length === 0) {
+        container.innerHTML = `<p class="text-center text-xs text-slate-500 py-6">لا توجد محادثات سابقة.</p>`;
+      } else {
+        container.innerHTML = userList.map(user => `
+          <div onclick="openChat('${user}')" class="bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3 rounded-xl flex items-center justify-between cursor-pointer transition">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold text-xs border border-cyan-500/20">
+                ${user.charAt(0)}
+              </div>
+              <div>
+                <h5 class="font-bold text-slate-200 text-xs">${user}</h5>
+                <p class="text-[10px] text-slate-400 truncate max-w-[180px]">${chats[user][chats[user].length - 1].text}</p>
+              </div>
+            </div>
+            <span class="text-[10px] text-cyan-400 font-bold">فتح ></span>
+          </div>
+        `).join('');
+      }
+      openModal("inboxModal");
+    }
+
+    function openChat(recipient) {
+      activeChatUser = recipient;
+      if (!chats[recipient]) chats[recipient] = [];
+      document.getElementById("chatRecipient").innerText = `محادثة مع: ${recipient}`;
+      closeModal("inboxModal");
+      renderChatMessages();
+      openModal("chatModal");
+    }
+
+    function renderChatMessages() {
+      const container = document.getElementById("chatMessages");
+      const messages = chats[activeChatUser] || [];
+
+      if (messages.length === 0) {
+        container.innerHTML = `<div class="bg-slate-800/80 border border-slate-700 text-slate-300 text-xs p-3 rounded-2xl max-w-[80%]">مرحباً! تفضل بالسؤال عن القطعة المعروضة.</div>`;
+      } else {
+        container.innerHTML = messages.map(m => `
+          <div class="${m.sender === 'me' ? 'bg-cyan-600 text-slate-950 ml-auto' : 'bg-slate-800 border border-slate-700 text-slate-200 mr-auto'} font-bold text-xs p-3 rounded-2xl max-w-[80%]">
+            ${m.text}
+          </div>
+        `).join('');
+      }
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendMessage(e) {
       e.preventDefault();
-      currentUser = {
-        name: document.getElementById("loginName").value,
-        phone: document.getElementById("loginPhone").value,
-        region: document.getElementById("loginRegion").value
-      };
-      localStorage.setItem("mr_gaza_user", JSON.stringify(currentUser));
-      document.getElementById("userAuthText").innerText = currentUser.name;
-      closeModal("authModal");
+      const input = document.getElementById("chatInput");
+      const text = input.value.trim();
+      if (!text || !activeChatUser) return;
+
+      const msgObj = { sender: 'me', text: text, time: new Date().toLocaleTimeString() };
+      chats[activeChatUser].push(msgObj);
+      localStorage.setItem("mr_gaza_chats", JSON.stringify(chats));
+
+      // Broadcast message to sync
+      syncChannel.postMessage({ type: 'NEW_CHAT', sender: activeChatUser, text: text });
+
+      renderChatMessages();
+      input.value = "";
     }
 
     function submitActivationCode() {
@@ -636,14 +724,14 @@
         closeModal("verificationModal");
         alert("تم توثيق حسابك بنجاح 🟢");
       } else {
-        alert("كود التوثيق غير صحيح! يرجى التواصل مع المطور للحصول على الكود المعتمد.");
+        alert("كود التوثيق غير صحيح!");
       }
     }
 
     function updateUserBadgeUI() {
       if (isUserVerified) {
         const btn = document.getElementById("userBadgeBtn");
-        btn.className = "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 font-bold";
+        btn.className = "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 font-bold whitespace-nowrap";
         document.getElementById("userBadgeText").innerText = "حساب موثوق 🟢";
       }
     }
@@ -690,30 +778,8 @@
       e.target.reset();
     }
 
-    function openChat(recipient) {
-      document.getElementById("chatRecipient").innerText = `محادثة مع: ${recipient}`;
-      openModal("chatModal");
-    }
-
-    function sendMessage(e) {
-      e.preventDefault();
-      const input = document.getElementById("chatInput");
-      const text = input.value.trim();
-      if (!text) return;
-
-      const container = document.getElementById("chatMessages");
-      container.innerHTML += `
-        <div class="bg-cyan-600 text-slate-950 font-bold text-xs p-3 rounded-2xl max-w-[80%] mr-auto text-left">
-          ${text}
-        </div>
-      `;
-      input.value = "";
-      container.scrollTop = container.scrollHeight;
-    }
-
     function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
     function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
-    function openAuthModal() { openModal("authModal"); }
     function openVerificationModal() { openModal("verificationModal"); }
   </script>
 </body>
