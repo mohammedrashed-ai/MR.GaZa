@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MR.GaZa | سوق الشبكات والاتصالات - م. محمد أبوسمعان</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Tajawal -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              500: '#06b6d4',
+              600: '#0891b2',
+              900: '#164e63',
+              accent: '#38bdf8',
+              neon: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background-color: #0b0f17; color: #f1f5f9; }
+    .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .neon-border { border: 1px solid rgba(6, 182, 212, 0.4); box-shadow: 0 0 15px rgba(6, 182, 212, 0.15); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
+
+  <!-- Top Commission Banner -->
+  <div class="bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-amber-500/20 border-b border-amber-500/30 text-center py-1.5 px-4 text-[11px] sm:text-xs text-amber-300 font-bold flex items-center justify-center gap-2">
+    <i data-lucide="percent" class="w-3.5 h-3.5 text-amber-400"></i>
+    <span>عمولة المنصة 3% فقط عند إتمام البيع والشراء عبر التطبيق بدعم أصحاب الشبكات</span>
+  </div>
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-40 glass border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      
+      <!-- Logo & Developer Tag -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-cyan-500/20">
+          <i data-lucide="radio-receiver" class="w-6 h-6 stroke-[2.5]"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-black text-xl tracking-tight text-white">MR.GaZa</h1>
+            <span class="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-cyan-500/30">سوق الشبكات</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">برمجة وتطوير: <span class="text-cyan-400 font-bold">م. محمد أبوسمعان</span></p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="openAuthModal()" id="userAuthBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition">
+          <i data-lucide="user" class="w-4 h-4 text-cyan-400"></i>
+          <span id="userAuthText">تسجيل الدخول</span>
+        </button>
+
+        <button onclick="openVerificationModal()" id="userBadgeBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 border border-slate-700 transition">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+          <span id="userBadgeText">توثيق الحساب</span>
+        </button>
+
+        <button onclick="openModal('addAdModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 transition">
+          <i data-lucide="plus-circle" class="w-4 h-4 stroke-[2.5]"></i>
+          <span class="hidden md:inline">أضف عرضك</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero & Search Banner -->
+  <section class="relative py-8 px-4 overflow-hidden border-b border-slate-800/60">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      
+      <h2 class="text-2xl sm:text-4xl font-black text-white mb-3 leading-tight">
+        سوق <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">MR.GaZa</span> لمعدات الشبكات والاتصالات
+      </h2>
+      <p class="text-slate-400 text-xs sm:text-sm mb-6 max-w-xl mx-auto">
+        المكان المخصص لأصحاب الشبكات، المهندسين والتجار لعرض وطلب MikroTik، OLT، الأطباق، الكوابل وسيرفرات الإنترنت.
+      </p>
+
+      <!-- Search Bar -->
+      <div class="glass p-2 rounded-2xl flex flex-col sm:flex-row gap-2 neon-border max-w-2xl mx-auto">
+        <div class="flex-1 flex items-center gap-2 px-3 bg-slate-900/60 rounded-xl border border-slate-800">
+          <i data-lucide="search" class="w-4 h-4 text-cyan-400"></i>
+          <input type="text" id="searchInput" oninput="applyFilters()" placeholder="ابحث عن: MikroTik, OLT, SFP, LiteBeam, كوابل..." class="w-full py-2.5 bg-transparent text-xs sm:text-sm text-slate-200 outline-none placeholder:text-slate-500">
+        </div>
+        
+        <select id="regionFilter" onchange="applyFilters()" class="bg-slate-900/60 text-slate-300 text-xs px-3 py-2.5 rounded-xl border border-slate-800 outline-none">
+          <option value="">كل المناطق</option>
+          <option value="غزة">غزة</option>
+          <option value="الرمال">الرمال</option>
+          <option value="الوسطى">الوسطى</option>
+          <option value="خانيونس">خانيونس</option>
+          <option value="رفح">رفح</option>
+          <option value="الشمال">الشمال</option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-1">
+
+    <!-- Categories horizontal scroll -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold text-slate-300 flex items-center gap-2">
+          <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+          الأقسام والتخصصات
+        </h3>
+      </div>
+      <div id="categoryContainer" class="flex gap-2.5 overflow-x-auto pb-2 no-scrollbar">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Toggle Tabs (Offers vs Buyer Requests) -->
+    <div class="flex items-center gap-3 border-b border-slate-800 mb-6 pb-1">
+      <button id="tabOffers" onclick="switchTab('offers')" class="px-4 py-2 text-xs sm:text-sm font-bold text-cyan-400 border-b-2 border-cyan-400 flex items-center gap-2 transition">
+        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+        المعدات المعروضة للبيع
+        <span id="offersCount" class="bg-cyan-500/10 text-cyan-400 text-[10px] px-2 py-0.5 rounded-full border border-cyan-500/20">0</span>
+      </button>
+
+      <button id="tabRequests" onclick="switchTab('requests')" class="px-4 py-2 text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 flex items-center gap-2 transition">
+        <i data-lucide="search-check" class="w-4 h-4"></i>
+        🔎 مطلوب من السوق
+        <span id="requestsCount" class="bg-amber-500/10 text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20">0</span>
+      </button>
+    </div>
+
+    <!-- Tab 1: Equipment Offers Grid -->
+    <section id="offersSection">
+      <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Filled dynamically -->
+      </div>
+    </section>
+
+    <!-- Tab 2: Buyer Wanted Requests Grid -->
+    <section id="requestsSection" class="hidden">
+      <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/5 border border-amber-500/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="font-bold text-amber-300 text-sm">تبحث عن قطعة نادرة أو أجهزة بأسعار محددة؟</h4>
+          <p class="text-xs text-amber-200/70 mt-1">أضف طلبك هنا وستتلقى عروض المبيعات مباشرةً من التجار وأصحاب الشبكات.</p>
+        </div>
+        <button onclick="openModal('addRequestModal')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl whitespace-nowrap shadow-lg shadow-amber-500/20 transition">
+          + أضف طلبك للعامة
+        </button>
+      </div>
+
+      <div id="requestsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Filled dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Developer Footer & Rights -->
+  <footer class="glass border-t border-slate-800/80 py-6 text-center text-xs text-slate-400 mt-12">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-bold text-slate-200">MR.GaZa — التطبيق الخاص بشبكات الإنترنت والاتصالات</p>
+      <p class="text-slate-500 text-[11px]">عمولة المنصة 3% فقط للتطوير والاستدامة | البيع والتسليم يتم مباشرة بين الطرفين</p>
+      <div class="pt-2">
+        <span class="inline-block bg-slate-900 border border-cyan-500/30 text-cyan-400 text-[11px] font-bold px-3 py-1 rounded-xl">
+          برمجة وتطوير: م. محمد أبوسمعان
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal 1: User Login / Register -->
+  <div id="authModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base">تسجيل الدخول / حساب جديد</h3>
+        <button onclick="closeModal('authModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleLogin(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">الاسم الكريم / اسم الشبكة</label>
+          <input type="text" id="loginName" required placeholder="مثال: شبكة الأمل / م. أحمد" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-cyan-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف / الواتساب</label>
+          <input type="text" id="loginPhone" required placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-cyan-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">المنطقة</label>
+          <select id="loginRegion" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+            <option value="غزة">غزة</option>
+            <option value="الرمال">الرمال</option>
+            <option value="الوسطى">الوسطى</option>
+            <option value="خانيونس">خانيونس</option>
+            <option value="رفح">رفح</option>
+            <option value="الشمال">الشمال</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-cyan-500/20">
+          حفظ وتسجيل الدخول
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add New Offer/Listing -->
+  <div id="addAdModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base">إضافة معدة للبيع</h3>
+        <button onclick="closeModal('addAdModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleCreateAd(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">اسم القطعة / المعدة</label>
+          <input type="text" id="adTitle" required placeholder="مثال: MikroTik hEX / OLT 4 Port" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">القسم</label>
+            <select id="adCategory" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+              <option value="MikroTik">MikroTik</option>
+              <option value="راوترات">راوترات</option>
+              <option value="أجهزة OLT / ONU">أجهزة OLT / ONU</option>
+              <option value="Nano / PowerBeam">Nano / PowerBeam</option>
+              <option value="UPS وبطاريات">UPS وبطاريات</option>
+              <option value="سويتشات">سويتشات</option>
+              <option value="كوابل وفايبر">كوابل وفايبر</option>
+              <option value="كاميرات ومستلزمات">كاميرات ومستلزمات</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">الحالة</label>
+            <select id="adCondition" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+              <option value="مستعمل — بحالة جيدة">مستعمل — بحالة جيدة</option>
+              <option value="جديد بالكرتونة">جديد بالكرتونة</option>
+              <option value="مستعمل — ممتاز">مستعمل — ممتاز</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">السعر (شيكل)</label>
+            <input type="number" id="adPrice" required placeholder="120" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">الكمية</label>
+            <input type="number" id="adQty" required value="1" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">المنطقة</label>
+            <input type="text" id="adRegion" required placeholder="الرمال" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">اسم البائع / المحل</label>
+          <input type="text" id="adSeller" required placeholder="شبكة القدس" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الواتساب للتواصل</label>
+          <input type="text" id="adPhone" required placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">رابط صورة المعدة (اختياري)</label>
+          <input type="text" id="adImage" placeholder="https://..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-cyan-500/20">
+          نشر العرض في المنصة
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Buyer Request -->
+  <div id="addRequestModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-lg w-full p-5 border border-slate-700 shadow-2xl">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base">إضافة طلب شراء معدة</h3>
+        <button onclick="closeModal('addRequestModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleCreateRequest(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">المعدة / القطعة المطلوبة</label>
+          <input type="text" id="reqTitle" required placeholder="مطلوب MikroTik RB750Gr3" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none focus:border-amber-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">الكمية المطلوبة</label>
+            <input type="number" id="reqQty" required value="1" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">الميزانية (شيكل)</label>
+            <input type="text" id="reqBudget" placeholder="250" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">المنطقة</label>
+            <input type="text" id="reqRegion" required placeholder="غزة" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">اسم المشتري / الشبكة</label>
+            <input type="text" id="reqBuyer" required placeholder="شبكة النور" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الواتساب للتواصل</label>
+          <input type="text" id="reqPhone" required placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-amber-500/20">
+          نشر الطلب للبائعين
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Account Verification -->
+  <div id="verificationModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-md w-full p-5 border border-slate-700 shadow-2xl">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-slate-100 text-base flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-5 h-5 text-cyan-400"></i>
+          توثيق الحساب بالرمز المعتمد
+        </h3>
+        <button onclick="closeModal('verificationModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          للحصول على شارة <span class="text-emerald-400 font-bold">عضو موثوق 🟢</span> وزيادة موثوقية عروضك، يرجى طلب كود التفعيل المباشر من مطور التطبيق عبر الواتساب.
+        </p>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف المراد توثيقه</label>
+          <input type="text" id="verPhone" placeholder="059xxxxxxx" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        </div>
+
+        <div>
+          <a id="waVerifyLink" href="https://wa.me/970599777332?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85.%D9%85%D8%AD%D9%85%D8%AF%20%D8%A3%D8%A8%D9%88%D8%B3%D9%85%D8%B9%D8%A7%D9%86%D9%8F%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%88%D8%AB%D9%8A%D9%82%20%D8%AD%D8%B3%D8%A7%D8%A8%D9%8A%20%D9%81%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20MR.GaZa" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+            <i data-lucide="message-square" class="w-4 h-4"></i>
+            طلب كود التوثيق عبر الواتساب (970599777332)
+          </a>
+        </div>
+
+        <div class="border-t border-slate-800 pt-3">
+          <label class="block text-xs font-bold text-slate-300 mb-1">أدخل كود التوثيق المستلم</label>
+          <div class="flex gap-2">
+            <input type="text" id="verCodeInput" placeholder="أدخل كود التوثيق" class="flex-1 bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+            <button onclick="submitActivationCode()" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition">
+              تأكيد التوثيق
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: In-App Chat Modal -->
+  <div id="chatModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-lg w-full h-[500px] flex flex-col border border-slate-700 shadow-2xl">
+      <div class="flex justify-between items-center p-4 border-b border-slate-800">
+        <div>
+          <h3 id="chatRecipient" class="font-bold text-slate-100 text-sm">محادثة البائع</h3>
+          <p class="text-[10px] text-emerald-400">محادثة أمنة داخل المنصة</p>
+        </div>
+        <button onclick="closeModal('chatModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3">
+        <div class="bg-slate-800/80 border border-slate-700 text-slate-300 text-xs p-3 rounded-2xl max-w-[80%] leading-relaxed">
+          أهلاً بك! تفضل بخصوص المعدة المعروضة.
+        </div>
+      </div>
+
+      <form onsubmit="sendMessage(event)" class="p-3 border-t border-slate-800 flex gap-2">
+        <input type="text" id="chatInput" required placeholder="اكتب رسالتك..." class="flex-1 bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 outline-none">
+        <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition">
+          إرسال
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    const DEV_PHONE = "970599777332";
+    const ACTIVATION_CODE = "777332";
+
+    const categories = [
+      { name: "الكل", icon: "layers" },
+      { name: "MikroTik", icon: "cpu" },
+      { name: "راوترات", icon: "wifi" },
+      { name: "أجهزة OLT / ONU", icon: "server" },
+      { name: "Nano / PowerBeam", icon: "radio" },
+      { name: "UPS وبطاريات", icon: "battery-charging" },
+      { name: "سويتشات", icon: "network" },
+      { name: "كوابل وفايبر", icon: "cable" },
+      { name: "كاميرات ومستلزمات", icon: "camera" }
+    ];
+
+    // Clean initial state for deployment
+    let listings = [];
+    let requests = [];
+
+    let currentCategory = "الكل";
+    let isUserVerified = false;
+    let currentUser = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      renderCategories();
+      renderListings();
+      renderRequests();
+      lucide.createIcons();
+    });
+
+    function loadState() {
+      const storedVerified = localStorage.getItem("mr_gaza_verified");
+      if (storedVerified === "true") {
+        isUserVerified = true;
+        updateUserBadgeUI();
+      }
+
+      const storedUser = localStorage.getItem("mr_gaza_user");
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        document.getElementById("userAuthText").innerText = currentUser.name;
+      }
+
+      const storedListings = localStorage.getItem("mr_gaza_listings");
+      if (storedListings) listings = JSON.parse(storedListings);
+
+      const storedRequests = localStorage.getItem("mr_gaza_requests");
+      if (storedRequests) requests = JSON.parse(storedRequests);
+    }
+
+    function renderCategories() {
+      const container = document.getElementById("categoryContainer");
+      container.innerHTML = categories.map(cat => `
+        <button onclick="selectCategory('${cat.name}')" class="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 whitespace-nowrap transition ${cat.name === currentCategory ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800 border border-slate-800'}">
+          <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
+          ${cat.name}
+        </button>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function selectCategory(catName) {
+      currentCategory = catName;
+      renderCategories();
+      applyFilters();
+    }
+
+    function renderListings(filteredList = listings) {
+      const grid = document.getElementById("listingsGrid");
+      document.getElementById("offersCount").innerText = filteredList.length;
+
+      if (filteredList.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-16 text-slate-500">
+            <i data-lucide="package-open" class="w-12 h-12 mx-auto mb-3 text-slate-600"></i>
+            <p class="text-sm font-bold text-slate-400">لا توجد معدات معروضة حالياً في هذا القسم</p>
+            <p class="text-xs text-slate-500 mt-1">كن أول من يضيف عرضاً جديداً على المنصة!</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      grid.innerHTML = filteredList.map(item => `
+        <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-slate-700 transition relative">
+          <div class="h-36 bg-slate-900/80 relative flex items-center justify-center overflow-hidden border-b border-slate-800">
+            ${item.image ? `<img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">` : `<i data-lucide="radio" class="w-10 h-10 text-cyan-500/40"></i>`}
+            <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-md text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-md border border-cyan-500/20">${item.condition}</span>
+          </div>
+
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-md border border-cyan-500/20">${item.category}</span>
+              </div>
+              <h4 class="font-bold text-slate-100 text-sm mb-1">${item.title}</h4>
+              <p class="text-xs text-slate-400 flex items-center gap-1 mb-3">
+                <i data-lucide="map-pin" class="w-3 h-3 text-slate-500"></i> ${item.region} • الكمية: <span class="text-slate-200 font-bold">${item.qty}</span>
+              </p>
+            </div>
+
+            <div>
+              <div class="flex items-baseline gap-1 text-cyan-400 font-black text-lg mb-3">
+                <span>${item.price}</span> <span class="text-xs font-normal text-slate-400">شيكل</span>
+              </div>
+
+              <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between gap-1">
+                <div class="text-[11px]">
+                  <span class="font-bold text-slate-300 block">${item.seller}</span>
+                  ${item.verified ? '<span class="text-emerald-400 text-[10px]">🟢 موثوق</span>' : '<span class="text-slate-500 text-[10px]">عضو جديد</span>'}
+                </div>
+                
+                <div class="flex gap-1.5">
+                  <button onclick="openChat('${item.seller}')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-xl transition">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5 text-cyan-400"></i>
+                  </button>
+                  <a href="https://wa.me/${item.phone}" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-1 transition">
+                    <i data-lucide="phone" class="w-3.5 h-3.5"></i> واتساب
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderRequests() {
+      const grid = document.getElementById("requestsGrid");
+      document.getElementById("requestsCount").innerText = requests.length;
+
+      if (requests.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-500">
+            <p class="text-xs font-bold text-slate-400">لا توجد طلبات شراء مطروحة حالياً</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = requests.map(req => `
+        <div class="glass-card rounded-2xl border border-amber-500/20 p-4 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h4 class="font-bold text-slate-100 text-sm">${req.title}</h4>
+              <span class="bg-amber-500/10 text-amber-400 text-xs px-2.5 py-0.5 rounded-lg font-bold border border-amber-500/20">الميزانية: ${req.budget}</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">
+              المنطقة: <span class="text-slate-200 font-bold">${req.region}</span> • طالب المعدة: <span class="text-slate-200 font-bold">${req.buyer}</span>
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between pt-2.5 border-t border-slate-800">
+            <span class="text-[10px] text-slate-500">${req.date}</span>
+            <a href="https://wa.me/${req.phone}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 transition">
+              <i data-lucide="phone" class="w-3.5 h-3.5"></i> تواصل مع المشتري
+            </a>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const region = document.getElementById("regionFilter").value;
+
+      const filtered = listings.filter(item => {
+        const matchesCategory = currentCategory === "الكل" || item.category === currentCategory;
+        const matchesSearch = item.title.toLowerCase().includes(search) || item.category.toLowerCase().includes(search);
+        const matchesRegion = !region || item.region.includes(region);
+        return matchesCategory && matchesSearch && matchesRegion;
+      });
+
+      renderListings(filtered);
+    }
+
+    function switchTab(tab) {
+      if (tab === 'offers') {
+        document.getElementById("offersSection").classList.remove("hidden");
+        document.getElementById("requestsSection").classList.add("hidden");
+        document.getElementById("tabOffers").className = "px-4 py-2 text-xs sm:text-sm font-bold text-cyan-400 border-b-2 border-cyan-400 flex items-center gap-2 transition";
+        document.getElementById("tabRequests").className = "px-4 py-2 text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 flex items-center gap-2 transition";
+      } else {
+        document.getElementById("offersSection").classList.add("hidden");
+        document.getElementById("requestsSection").classList.remove("hidden");
+        document.getElementById("tabRequests").className = "px-4 py-2 text-xs sm:text-sm font-bold text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 transition";
+        document.getElementById("tabOffers").className = "px-4 py-2 text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 flex items-center gap-2 transition";
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      currentUser = {
+        name: document.getElementById("loginName").value,
+        phone: document.getElementById("loginPhone").value,
+        region: document.getElementById("loginRegion").value
+      };
+      localStorage.setItem("mr_gaza_user", JSON.stringify(currentUser));
+      document.getElementById("userAuthText").innerText = currentUser.name;
+      closeModal("authModal");
+    }
+
+    function submitActivationCode() {
+      const input = document.getElementById("verCodeInput").value.trim();
+      if (input === ACTIVATION_CODE) {
+        isUserVerified = true;
+        localStorage.setItem("mr_gaza_verified", "true");
+        updateUserBadgeUI();
+        closeModal("verificationModal");
+        alert("تم توثيق حسابك بنجاح 🟢");
+      } else {
+        alert("كود التوثيق غير صحيح! يرجى التواصل مع المطور للحصول على الكود المعتمد.");
+      }
+    }
+
+    function updateUserBadgeUI() {
+      if (isUserVerified) {
+        const btn = document.getElementById("userBadgeBtn");
+        btn.className = "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 font-bold";
+        document.getElementById("userBadgeText").innerText = "حساب موثوق 🟢";
+      }
+    }
+
+    function handleCreateAd(e) {
+      e.preventDefault();
+      const newAd = {
+        id: Date.now(),
+        title: document.getElementById("adTitle").value,
+        category: document.getElementById("adCategory").value,
+        condition: document.getElementById("adCondition").value,
+        price: Number(document.getElementById("adPrice").value),
+        qty: Number(document.getElementById("adQty").value),
+        region: document.getElementById("adRegion").value,
+        seller: document.getElementById("adSeller").value,
+        phone: document.getElementById("adPhone").value,
+        image: document.getElementById("adImage").value || "",
+        verified: isUserVerified
+      };
+      listings.unshift(newAd);
+      localStorage.setItem("mr_gaza_listings", JSON.stringify(listings));
+      renderListings();
+      closeModal('addAdModal');
+      e.target.reset();
+    }
+
+    function handleCreateRequest(e) {
+      e.preventDefault();
+      const newReq = {
+        id: Date.now(),
+        title: document.getElementById("reqTitle").value,
+        qty: Number(document.getElementById("reqQty").value),
+        budget: document.getElementById("reqBudget").value + " شيكل",
+        region: document.getElementById("reqRegion").value,
+        buyer: document.getElementById("reqBuyer").value,
+        phone: document.getElementById("reqPhone").value,
+        date: "الآن"
+      };
+      requests.unshift(newReq);
+      localStorage.setItem("mr_gaza_requests", JSON.stringify(requests));
+      renderRequests();
+      closeModal('addRequestModal');
+      switchTab('requests');
+      e.target.reset();
+    }
+
+    function openChat(recipient) {
+      document.getElementById("chatRecipient").innerText = `محادثة مع: ${recipient}`;
+      openModal("chatModal");
+    }
+
+    function sendMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById("chatInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById("chatMessages");
+      container.innerHTML += `
+        <div class="bg-cyan-600 text-slate-950 font-bold text-xs p-3 rounded-2xl max-w-[80%] mr-auto text-left">
+          ${text}
+        </div>
+      `;
+      input.value = "";
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
+    function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+    function openAuthModal() { openModal("authModal"); }
+    function openVerificationModal() { openModal("verificationModal"); }
+  </script>
+</body>
+</html>
